@@ -68,5 +68,11 @@ module.exports = {
         const {title, image_url, content} = req.body
         await db.add_post([title, image_url, content, userid])
         res.sendStatus(200)
+    },
+    findUser: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {userid} = req.session
+        let result = await db.find_user_by_id(userid)
+        res.status(200).send(result)
     }
 }

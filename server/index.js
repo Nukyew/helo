@@ -23,6 +23,8 @@ app.get('/api/post/:postid', ctrl.getOnePost)
 // app.post('/api/post/new/:userid', ctrl.addPost)
 app.post('/api/post/new/', ctrl.addPost)
 
+app.get('/api/auth/me', ctrl.findUser)
+
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
     console.log('db is connected')

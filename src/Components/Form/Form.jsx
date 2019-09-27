@@ -1,5 +1,5 @@
 import React from 'react'
-import {connect} from 'react-redux'
+// import {connect} from 'react-redux'
 import axios from 'axios'
 
 class Form extends React.Component{
@@ -20,7 +20,7 @@ class Form extends React.Component{
 
     addPost = async () => {
         let {title, image_url, content} = this.state
-        await axios.post(`/api/post/new/${this.props.id}`, {title, image_url, content})
+        await axios.post(`/api/post/new/`, {title, image_url, content})
         this.props.history.push('/dashboard')
     }
 
@@ -38,9 +38,10 @@ class Form extends React.Component{
     }
 }
 
-const mapStateToProps = reduxState => {
-    const {id} = reduxState
-    return {id}
-}
+// const mapStateToProps = reduxState => {
+//     const {id} = reduxState
+//     return {id}
+// }
 
-export default connect(mapStateToProps)(Form)
+// export default connect(mapStateToProps)(Form)
+export default Form

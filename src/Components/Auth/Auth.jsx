@@ -33,8 +33,7 @@ class Auth extends React.Component{
         const {username, password} = this.state
         const res = await axios.post('/auth/login', {username, password})
         if (res.data.username){
-            console.log(res.data)
-            this.props.handleUser(res.data.id, res.data.username, res.data.profile_pic)
+            this.props.handleUser(res.data.username, res.data.profile_pic)
             this.props.history.push('/dashboard')
         } else {
             alert(`${res.data.message}`)
