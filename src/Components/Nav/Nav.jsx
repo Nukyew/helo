@@ -1,8 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {handleUser} from '../../ducks/reducer'
-import {clearState} from '../../ducks/reducer'
+import {handleUser, clearState} from '../../ducks/reducer'
 import axios from 'axios'
 
 class Nav extends React.Component{
@@ -30,26 +29,37 @@ class Nav extends React.Component{
     render(){
         return(
             <div className="nav">
-                This is Nav.
-                <h2>{this.props.username}</h2>
-                <img alt={this.props.username} src={this.props.profile_pic}/>
-                <Link to='/dashboard'>
-                    <button>Home</button>
-                </Link>
-                <Link to='/new'>
-                    <button>New Post</button>
-                </Link>
-                <Link to='/'>
-                    <button onClick={this.userLogout}>Logout</button>
-                </Link>
+                <div className="profile_pic" style={{
+                        backgroundImage:`url(${this.props.profile_pic})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "40px"
+                    }}></div>
+                <p>{this.props.username}</p>
+                <div className="nav-buttons">
+                    <Link to='/dashboard'>
+                        <i className="fas fa-home fa-3x"></i>
+                    </Link>
+                    <Link to='/new'>
+                        <i className="fas fa-plus-square fa-3x"></i>
+                    </Link>
+                    <Link to='/'>
+                         <i className="fas fa-power-off fa-3x"></i>
+                    </Link>
+                </div>
             </div>
         )
     }
 }
+
+const mapDispatchToProps = {handleUser, clearState}
 
 const mapStateToProps = reduxState => {
     const {username, profile_pic} = reduxState
     return {username, profile_pic}
 }
 
-export default connect(mapStateToProps, {handleUser, clearState})(Nav)
+export default connect(mapStateToProps, mapDispatchToProps)(Nav)

@@ -48,23 +48,43 @@ class Dashboard extends React.Component{
     render(){
         let posts = this.state.posts.map((el, i) => {
             return (
-                <Link  key={el.post_id} to={`/post/${el.post_id}`}>
+                <Link className="link" key={el.post_id} to={`/post/${el.post_id}`}>
                     <div className="post">
                         <h2>{el.title}</h2>
-                        <p>{el.username}</p>
-                        <img alt={el.username} src={el.profile_pic}/>
+                        <div className="post-info">
+                            <p>By: {el.username}</p>
+                            {/* <img alt={el.username} src={el.profile_pic}/> */}
+                            <div className="profile_pic" style={{
+                                backgroundImage:`url(${el.profile_pic})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                backgroundRepeat: 'no-repeat',
+                                width: "50px",
+                                height: "50px",
+                                borderRadius: "25px"
+                            }}></div>
+                        </div>
                     </div> 
                 </Link>
             )
         })
         return(
-            <div>
-                This is Dashboard.
-                <input value={this.state.searchTerm} onChange={e => this.handleChange(e)}/>
-                <button onClick={this.getPosts}>Search</button>
-                <button onClick={this.resetSearch}>Reset</button>
-                My posts:<input onChange={e => this.myPostsChange(e)} checked={this.state.myPosts} type="checkbox"/>
-                {posts}
+            <div className="dashboard">
+                <div className="dashboard-container">
+                    <div className="search-bar-container">
+                        <div className="search-bar">
+                            <input placeholder="Search by Title" value={this.state.searchTerm} onChange={e => this.handleChange(e)}/>
+                            <button onClick={this.getPosts}>Search</button>
+                            <button onClick={this.resetSearch}>Reset</button>
+                        </div>
+                        <div className="search-bar-button">
+                            My posts:<input onChange={e => this.myPostsChange(e)} checked={this.state.myPosts} type="checkbox"/>
+                        </div>
+                    </div>
+                    <div className="posts">
+                        {posts}
+                    </div>
+                </div>
             </div>
         )
     }

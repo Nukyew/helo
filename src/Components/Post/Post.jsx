@@ -30,13 +30,40 @@ class Post extends React.Component{
 
     render(){
         return(
-            <div>
-                This is Post.
-                <h2>Title: {this.state.title}</h2>
-                <img src={this.state.image} alt={this.state.title}/>
-                <p>Content: {this.state.content}</p>
-                <h3>Author: {this.state.username}</h3>
-                <img src={this.state.profile_pic} alt={this.state.username}/>
+            <div className="post-component">
+                <div className="post-component-container">
+                    <div className="post-title">
+                        <div className="post-title-top">
+                            <h1>{this.state.title}</h1>
+                            <div className="post-title-author">
+                                <p>By: {this.state.username}</p>
+                                <div className="profile_pic" style={{
+                                    backgroundImage:`url(${this.state.profile_pic})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "25px"
+                                }}></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="post-bottom">
+                        <div style={{
+                            backgroundImage:`url(${this.state.image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            width: "300px",
+                            height: "300px",
+                            alignSelf: "center"
+                        }}/>
+                        <div className="post-content">
+                            <p>Content: {this.state.content}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

@@ -26,13 +26,27 @@ class Form extends React.Component{
 
     render(){
         return(
-            <div>
-                This is Form.
-                {!this.state.image_url ? <></> : <img src={this.state.image_url} alt={this.state.title}/>}
-                Title: <input onChange={e => this.handleChange(e, 'title')} />
-                Image URL: <input onChange={e => this.handleChange(e, 'image_url')} />
-                Content: <input onChange={e => this.handleChange(e, 'content')} />
-                <button onClick={this.addPost}>Post</button>
+            <div className="form">
+                <div className="form-container">
+                    <h1>New Post</h1>
+                    <form>
+                        Title: <input onChange={e => this.handleChange(e, 'title')} />
+                        {!this.state.image_url ? <img src={"https://via.placeholder.com/250x250"}/> :
+                            <div style={{
+                                backgroundImage:`url(${this.state.image_url})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                backgroundRepeat: 'no-repeat',
+                                width: "250px",
+                                height: "250px",
+                                alignSelf: "center"
+                            }}/>
+                        }
+                        Image URL: <input onChange={e => this.handleChange(e, 'image_url')} />
+                        Content: <textarea /* cols='70' rows='50' */ onChange={e => this.handleChange(e, 'content')} />
+                        <button onClick={this.addPost}>Post</button>
+                    </form>
+                </div>
             </div>
         )
     }
