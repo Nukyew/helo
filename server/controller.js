@@ -12,6 +12,8 @@ module.exports = {
 
         let profile_pic = `https://robohash.org/${username}.png`
         const newUser = await db.create_user([username, hash, profile_pic])
+
+        req.session.userid = newUser[0].id
         
         res.status(201).send(newUser[0])
     },
@@ -22,13 +24,19 @@ module.exports = {
         if (!user[0]) return res.status(200).send({message: 'Incorrect username'})
         const result = bcrypt.compareSync(password, user[0].password)
         if (!result) return res.status(200).send({message: 'password incorrect'})
+        req.session.userid = user[0].id
         res.status(200).send(user[0])
+    },
+    logout: async (req, res, next) => {
+        req.session.destroy()
+        res.sendStatus(200)
     },
     getPosts: async (req, res, next) => {
         /* The query will look like this: http://localhost:4040/api/posts/3?userposts=true&search=asdf */
         /* The query will come here as an object {userposts: 'true', search: 'blahblahblah'} */
         const db = req.app.get('db')
-        const {userid} = req.params
+        // const {userid} = req.params
+        const {userid} = req.session
         const {userposts, search} = req.query
         const result = await db.get_posts()
         if (userposts === 'true' && search !== ''){
@@ -52,5 +60,13 @@ module.exports = {
         const {postid} = req.params
         const result = await db.get_one_post(postid)
         res.status(200).send(result)
+    },
+    addPost: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {userid} = req.session
+        console.log(userid)
+        const {title, image_url, content} = req.body
+        await db.add_post([title, image_url, content, userid])
+        res.sendStatus(200)
     }
 }
