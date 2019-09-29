@@ -1,14 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {handleUser, clearState} from '../../ducks/reducer'
 import axios from 'axios'
 
 class Nav extends React.Component{
     constructor(){
         super()
         this.state = {
-
+            username: '',
+            profile_pic: ''
         }
     }
 
@@ -18,7 +18,9 @@ class Nav extends React.Component{
 
     getUserById = async () => {
         let res = await axios.get('/api/auth/me')
-        this.props.handleUser(res.data[0].username, res.data[0].profile_pic)
+        const {username, profile_pic} = res.data[0]
+        let user = {username, profile_pic}
+        this.props.handleUser(user)
     }
 
     userLogout = async () => {
@@ -47,7 +49,7 @@ class Nav extends React.Component{
                         <i className="fas fa-plus-square fa-3x"></i>
                     </Link>
                     <Link to='/'>
-                         <i className="fas fa-power-off fa-3x"></i>
+                         <i className="fas fa-power-off fa-3x" onClick={this.userLogout}></i>
                     </Link>
                 </div>
             </div>
@@ -55,7 +57,22 @@ class Nav extends React.Component{
     }
 }
 
-const mapDispatchToProps = {handleUser, clearState}
+// const mapDispatchToProps = dispatch => {
+//     // {handleUser, clearState}
+//     return({
+//         clearState: () => {dispatch(clearState())},
+//         handleUser: () => {dispatch(handleUser())}
+//     })
+// }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleUser: (user) => {dispatch({type: 'HANDLE_USER', payload: user})},
+        clearState: () => {dispatch({type: 'CLEAR_STATE'})}
+    }
+}
+
+
 
 const mapStateToProps = reduxState => {
     const {username, profile_pic} = reduxState

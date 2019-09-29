@@ -31,7 +31,7 @@ class Form extends React.Component{
                     <h1>New Post</h1>
                     <form>
                         Title: <input onChange={e => this.handleChange(e, 'title')} />
-                        {!this.state.image_url ? <img src={"https://via.placeholder.com/250x250"}/> :
+                        {!this.state.image_url ? <img alt="placeholder" src={"https://via.placeholder.com/250x250"}/> :
                             <div style={{
                                 backgroundImage:`url(${this.state.image_url})`,
                                 backgroundSize: 'cover',

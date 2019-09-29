@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {handleUser} from '../../ducks/reducer'
 
 class Auth extends React.Component{
     constructor(){
@@ -23,7 +22,10 @@ class Auth extends React.Component{
         const res = await axios.post('/auth/register', {username, password})
         if (res.data.username){
             this.props.history.push('/dashboard')
-            this.props.handleUser(res.data.id, res.data.username, res.data.profile_pic)
+            let {username, profile_pic} = res.data
+            let user = {username, profile_pic}
+            this.props.handleUser(user)
+            // this.props.handleUser(res.data.id, res.data.username, res.data.profile_pic)
         } else {
             alert(`${res.data.message}`)
         }
@@ -33,7 +35,9 @@ class Auth extends React.Component{
         const {username, password} = this.state
         const res = await axios.post('/auth/login', {username, password})
         if (res.data.username){
-            this.props.handleUser(res.data.username, res.data.profile_pic)
+            let {username, profile_pic} = res.data
+            let user = {username, profile_pic}
+            this.props.handleUser(user)
             this.props.history.push('/dashboard')
         } else {
             alert(`${res.data.message}`)
@@ -60,4 +64,10 @@ class Auth extends React.Component{
     }
 }
 
-export default connect(null, {handleUser})(Auth)
+const mapDispatchToProps = dispatch => {
+    return {
+        handleUser: (user) => {dispatch({type: 'HANDLE_USER', payload: user})}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Auth)
